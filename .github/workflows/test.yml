@@ -9,33 +9,10 @@ jobs:
       matrix:
         python-version: ['3.7']
     steps:
-      - name: checkout
-        uses: actions/checkout@v1
-      - name: configure python
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: configure node
-        uses: actions/setup-node@v1
-        with:
-            node-version: '10.x'
-      - name: install
+      - name: hostnametest
         run: |
-          sudo apt-get install -y graphviz
-          pip install git+https://github.com/cylc/cylc-flow/  # install latest cylc-flow
-          pip install -e .[all]
-          npm install -g eslint
-      - name: style
-        run: |
-          pycodestyle .
-          eslint cylc/
-      - name: unittest
-        run: |
-          pytest
-      - name: build
-        run: |
-          make html slides linkcheck
-      - name: debug
-        if: failure()
-        run: |
-          cat /tmp/sphinx-err*  # sphinx traceback
+          hostname
+          hostname -f
+          python3 -c 'import socket; print(socket.getfqdn())'
+          python3 -c 'import socket; print(socket.gethostname())'
+          python3 -c 'from cylc.flow.hostuserutil import get_fqdn_by_host; print(get_fqdn_by_host(None))'
