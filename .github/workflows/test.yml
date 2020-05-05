@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: hostnametest
         run: |
+          pip install cylc-flow
           hostname
           hostname -f
           python3 -c 'import socket; print(socket.getfqdn())'
