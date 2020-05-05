@@ -9,6 +9,10 @@ jobs:
       matrix:
         python-version: ['3.7']
     steps:
+      - name: configure python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.7'
       - name: hostnametest
         run: |
           pip install cylc-flow
